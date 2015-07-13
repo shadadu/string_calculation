@@ -81,18 +81,14 @@ class Oprtr
     public int calc(String x)
     {
         x = x.replaceAll("\\s","");
-        if(x.charAt(0)== "-")
+        if(x.charAt(0)== '-')
         {
             x = ("0").concat(x);
         }
         
-        if(x.charAt(x.length())=="*"|| x.charAt(x.length())=="/" ){
-            System.out.println("Error: operator at end of string");
-            return 0;
-        }
-        
-        x = x.replaceAll("-","+-");
-      
+          x = x.replaceAll("-","+-");
+       
+         
         char[] carr = x.toCharArray();
         
         int i = 0;
@@ -144,7 +140,12 @@ class Oprtr
            
            for(int j =0; j < opString.length; j++)
            {
+              
               symbol = opString[j];
+              
+              
+            
+              
               indicate = stCalc.indexOf(symbol);
               stCalc = rep(symbol, stCalc, indicate, len_sc1, len_sc2);
               
@@ -178,29 +179,29 @@ class Oprtr
               String s1 = stCalc.substring(0,indicate);
               
               
-              String [] items1 = s1.split(("\\").concat(symbol));
-            
+              String [] items1 = s1.split("\\+|\\*|\\/");
+               
                            
                float [] results1 = new float[items1.length];
                 for (i = 0; i < items1.length; i++) {
-                   
-                    results1[i] = Float.valueOf(items1[i]);
+                    
+                   results1[i] = Float.valueOf(items1[i]);
                 }
                
-               float c1 = results1[0];
+               float c1 = results1[results1.length-1];
                              
                String s2 = stCalc.substring(indicate+1);
                
-               String [] items2 = s2.split(("\\").concat(symbol));
+               String [] items2 = s2.split("\\+|\\*|\\/");
                                      
                float[] results2 = new float[items2.length];
                 for (i = 0; i < items2.length; i++) {
-                   
-                    results2[i] = Float.parseFloat(items2[i]);
+                   results2[i] = Float.parseFloat(items2[i]);
                 }
                
               
                float c2 = results2[0];
+               
                
                int intc1 = (int)c1;
                int intc2 = (int)c2;
@@ -220,7 +221,6 @@ class Oprtr
                x = left_side + stCalc + right_side;
                stCalc = x;
               
-               
                indicate = stCalc.indexOf(symbol);
                
             }
@@ -256,17 +256,17 @@ class Oprtr
           while(indicate != -1){
               
                String s1 = stCalc.substring(0,indicate);
-               String [] items1= s1.split(("\\").concat(symbol));
+               String [] items1= s1.split("\\+|\\*|\\/");
              
                float[] results1 = new float[items1.length];
                 for (i = 0; i < items1.length; i++) {
                     results1[i] = Float.parseFloat(items1[i]);
                 }
                
-                float c1 = results1[0];
+                float c1 = results1[results1.length -1];
                             
                String s2 = stCalc.substring(indicate+1);
-               String [] items2= s2.split(("\\").concat(symbol));
+               String [] items2= s2.split("\\+|\\*|\\/");
                           
                float [] results2 = new float[items2.length];
                 for (i = 0; i < items2.length; i++) {
@@ -285,7 +285,7 @@ class Oprtr
                len_sc1 = sc1.length();
                len_sc2 = sc2.length();
                
-           stCalc = calcNoBrace(c1, c2, symbol, stCalc, indicate);
+           stCalc = calcNoBrace(intc1, intc2, symbol, stCalc, indicate);
            
            indicate = stCalc.indexOf(symbol);
            
@@ -302,11 +302,7 @@ class Oprtr
           return stCalc;
     }
    
-   public String munger()
-   {
-       
-    }
-    
+      
     public String calcNoBrace(int calc1, int calc2, String symbol, String st, int pos)
     {
            int res = 0;
@@ -359,7 +355,7 @@ class Oprtr
     
     public void test2()
     {
-        String str = "5 - 1 + 4"; 
+        String str = "5 - 1/1 + 4"; 
         int ans = calc(str);
         if(ans == 8)
         {
@@ -383,10 +379,3 @@ class Oprtr
       
     }
 }
-
-
-
-
-
-
-
